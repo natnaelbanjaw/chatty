@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dummyapps.globalchat">
    <application
-        android:label="GlobalChat"
+        android:label="Chatty"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

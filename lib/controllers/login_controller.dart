@@ -14,7 +14,7 @@ class LoginController {
 
       Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (context) {
-        return SplashScreen();
+        return const DashboardScreen();
       }), (route) {
         return false;
       });

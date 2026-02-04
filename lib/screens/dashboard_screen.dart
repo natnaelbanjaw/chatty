@@ -26,7 +26,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   List<String> chatroomsIds = [];
 
   void getChatrooms() {
-    db.collection("chatrooms").get().then((dataSnapshot) {
+    db.collection("chatroom").get().then((dataSnapshot) {
       for (var singleChatroomData in dataSnapshot.docs) {
         chatroomsList.add(singleChatroomData.data());
         chatroomsIds.add(singleChatroomData.id.toString());
@@ -38,70 +38,73 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
-    getChatrooms();
-    // TODO: implement initState
     super.initState();
+    getChatrooms();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<UserProvider>(context, listen: false).getUserDetails();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     var userProvider = Provider.of<UserProvider>(context);
+    final String userInitial =
+        userProvider.userName.isNotEmpty ? userProvider.userName[0] : "?";
 
     return Scaffold(
         key: scaffoldKey,
         appBar: AppBar(
-          title: Text("Global Chat"),
+          title: const Text("Chatty"),
           leading: InkWell(
             onTap: () {
               scaffoldKey.currentState!.openDrawer();
             },
             child: Padding(
               padding: const EdgeInsets.all(6.0),
-              child: CircleAvatar(
-                  radius: 20, child: Text(userProvider.userName[0])),
+              child: CircleAvatar(radius: 20, child: Text(userInitial)),
             ),
           ),
         ),
         drawer: Drawer(
             child: Container(
                 child: Column(children: [
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           ListTile(
             onTap: () async {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return ProfileScreen();
+                return const ProfileScreen();
               }));
             },
-            leading: CircleAvatar(child: Text(userProvider.userName[0])),
+            leading: CircleAvatar(child: Text(userInitial)),
             title: Text(userProvider.userName,
-                style: TextStyle(fontWeight: FontWeight.bold)),
+                style: const TextStyle(fontWeight: FontWeight.bold)),
             subtitle: Text(userProvider.userEmail),
           ),
           ListTile(
               onTap: () async {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return ProfileScreen();
+                  return const ProfileScreen();
                 }));
               },
-              leading: Icon(Icons.people),
-              title: Text("Profile")),
+              leading: const Icon(Icons.people),
+              title: const Text("Profile")),
           ListTile(
               onTap: () async {
                 await FirebaseAuth.instance.signOut();
                 Navigator.pushAndRemoveUntil(context,
                     MaterialPageRoute(builder: (context) {
-                  return SplashScreen();
+                  return const SplashScreen();
                 }), (route) {
                   return false;
                 });
               },
-              leading: Icon(Icons.logout),
-              title: Text("Logout"))
+              leading: const Icon(Icons.logout),
+              title: const Text("Logout"))
         ]))),
         body: ListView.builder(
             itemCount: chatroomsList.length,
             itemBuilder: (BuildContext context, int index) {
-              String chatroomName = chatroomsList[index]["chatroom_name"] ?? "";
+              String chatroomName = chatroomsList[index]["chatroom"] ?? "";
 
               return ListTile(
                 onTap: () {
@@ -111,12 +114,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       chatroomId: chatroomsIds[index],
                     );
                   }));
-                },
+                }, 
                 leading: CircleAvatar(
                     backgroundColor: Colors.blueGrey[900],
                     child: Text(
                       chatroomName[0],
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     )),
                 title: Text(chatroomName),
                 subtitle: Text(chatroomsList[index]["desc"] ?? ""),

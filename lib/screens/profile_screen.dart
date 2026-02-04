@@ -23,24 +23,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(""),
+        title: const Text(""),
       ),
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           CircleAvatar(radius: 50, child: Text(userProvider.userName[0])),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(userProvider.userName,
-              style: TextStyle(fontWeight: FontWeight.bold)),
-          SizedBox(height: 8),
+              style: const TextStyle(fontWeight: FontWeight.bold)),
+          const SizedBox(height: 8),   
           Text(userProvider.userEmail),
           ElevatedButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return EditProfileScreen();
+                  return const EditProfileScreen();
                 }));
               },
-              child: Text("Edit Profile"))
+              child: const Text("Edit Profile"))
         ]),
       ),
     );

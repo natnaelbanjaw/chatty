@@ -44,10 +44,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 if (value == null || value.isEmpty) {
                   return "Email is required";
                 }
+                return null;
               },
-              decoration: InputDecoration(label: Text("Email")),
+              decoration: const InputDecoration(label: Text("Email")),
             ),
-            SizedBox(height: 23),
+            const SizedBox(height: 23),
             TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               controller: password,
@@ -55,19 +56,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 if (value == null || value.isEmpty) {
                   return "Password is required";
                 }
+                return null;
               },
               obscureText: true,
               enableSuggestions: false,
               autocorrect: false,
-              decoration: InputDecoration(label: Text("Password")),
+              decoration: const InputDecoration(label: Text("Password")),
             ),
-            SizedBox(height: 23),
+            const SizedBox(height: 23),
             Row(
               children: [
                 Expanded(
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          minimumSize: Size(0, 50),
+                          minimumSize: const Size(0, 50),
                           foregroundColor: Colors.white,
                           backgroundColor: Colors.deepPurpleAccent),
                       onPressed: () async {
@@ -85,29 +87,29 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                       },
                       child: isLoading
-                          ? Padding(
-                              padding: const EdgeInsets.all(8.0),
+                          ? const Padding(
+                              padding: EdgeInsets.all(8.0),
                               child: CircularProgressIndicator(
                                 color: Colors.white,
                               ),
                             )
-                          : Text("Login")),
+                          : const Text("Login")),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               children: [
-                Text("Don't have an account?"),
-                SizedBox(width: 5),
+                const Text("Don't have an account?"),
+                const SizedBox(width: 5),
                 InkWell(
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return SignupScreen();
+                      return const SignupScreen();
                     }));
                   },
-                  child: Text("Signup here!",
+                  child: const Text("Signup here!",
                       style: TextStyle(
                           color: Colors.blue, fontWeight: FontWeight.bold)),
                 )

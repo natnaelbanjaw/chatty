@@ -52,7 +52,7 @@ class _ChatroomScreenState extends State<ChatroomScreen> {
         Padding(
           padding: const EdgeInsets.only(left: 6.0, right: 6),
           child:
-              Text(sender_name, style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(sender_name, style: const TextStyle(fontWeight: FontWeight.bold)),
         ),
         Container(
             decoration: BoxDecoration(
@@ -71,7 +71,7 @@ class _ChatroomScreenState extends State<ChatroomScreen> {
                           ? Colors.black
                           : Colors.white)),
             )),
-        SizedBox(
+        const SizedBox(
           height: 8,
         )
       ],
@@ -95,13 +95,13 @@ class _ChatroomScreenState extends State<ChatroomScreen> {
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   print(snapshot.error);
-                  return Text("Some error has occured!");
+                  return const Text("Some error has occured!");
                 }
 
                 var allMessages = snapshot.data?.docs ?? [];
 
-                if (allMessages.length < 1) {
-                  return Center(child: Text("No messages here"));
+                if (allMessages.isEmpty) {
+                  return const Center(child: Text("No messages here"));
                 }
                 return ListView.builder(
                     reverse: true,
@@ -125,11 +125,11 @@ class _ChatroomScreenState extends State<ChatroomScreen> {
                   Expanded(
                       child: TextField(
                     controller: messageText,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         hintText: "Write message here...",
                         border: InputBorder.none),
                   )),
-                  InkWell(onTap: sendMessage, child: Icon(Icons.send))
+                  InkWell(onTap: sendMessage, child: const Icon(Icons.send))
                 ]),
               ),
             )

@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:globalchat/providers/userProvider.dart';
-import 'package:globalchat/screens/dashboard_screen.dart';
-import 'package:globalchat/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../providers/userProvider.dart';
+import 'dashboard_screen.dart';
+import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,45 +14,53 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  var user = FirebaseAuth.instance.currentUser;
-
   @override
   void initState() {
-// Check for user login status..
-
-    Future.delayed(Duration(seconds: 2), () {
-      if (user == null) {
-        openLogin();
-      } else {
-        openDashboard();
-      }
-    });
-
-    // TODO: implement initState
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(seconds: 2), () {
+        if (!mounted) return;
+
+        final user = FirebaseAuth.instance.currentUser;
+
+        if (user == null) {
+          openLogin();
+        } else {
+          openDashboard();
+        }
+      });
+    });
   }
 
   void openDashboard() {
     Provider.of<UserProvider>(context, listen: false).getUserDetails();
 
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return DashboardScreen();
-    }));
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const DashboardScreen()),
+    );
   }
 
   void openLogin() {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return LoginScreen();
-    }));
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const LoginScreen()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-            child: SizedBox(
-                height: 100,
-                width: 100,
-                child: Image.asset("assets/images/logo.png"))));
+    return const Scaffold(
+      body: Center(
+        child: SizedBox(
+          height: 100,
+          width: 100,
+          child: Image(
+            image: AssetImage("assets/images/logo.png"),
+          ),
+        ),
+      ),
+    );
   }
 }

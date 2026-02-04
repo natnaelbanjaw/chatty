@@ -47,7 +47,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit Profile"),
+        title: const Text("Edit Profile"),
         actions: [
           InkWell(
             onTap: () {
@@ -56,14 +56,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 // updating of the data on database
               }
             },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Icon(Icons.check),
             ),
           )
         ],
       ),
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -76,9 +76,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   if (value == null || value.isEmpty) {
                     return "Name cannot be empty.";
                   }
+                  return null;
                 },
                 controller: nameText,
-                decoration: InputDecoration(label: Text("Name")),
+                decoration: const InputDecoration(label: Text("Name")),
               )
             ]),
           ),
