@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:globalchat/providers/userProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -36,7 +34,7 @@ class _ChatroomScreenState extends State<ChatroomScreen> {
 
     try {
       await db.collection("messages").add(messageToSend);
-    } catch (e) {}
+    } catch (e) {} 
   }
 
   Widget singleChatItem(
@@ -89,13 +87,22 @@ class _ChatroomScreenState extends State<ChatroomScreen> {
               stream: db
                   .collection("messages")
                   .where("chatroom_id", isEqualTo: widget.chatroomId)
-                  .limit(100)
+                  // .limit(100)
                   .orderBy("timestamp", descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  print(snapshot.error);
-                  return const Text("Some error has occured!");
+                  final String errorText =
+                      snapshot.error?.toString() ?? "Unknown error";
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        "Some error has occured!\n$errorText",
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
                 }
 
                 var allMessages = snapshot.data?.docs ?? [];

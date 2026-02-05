@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:globalchat/providers/userProvider.dart';
 import 'package:globalchat/screens/edit_profile_screen.dart';
 import 'package:provider/provider.dart';

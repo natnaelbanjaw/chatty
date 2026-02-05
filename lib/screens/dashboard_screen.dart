@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:globalchat/providers/userProvider.dart';
 import 'package:globalchat/screens/chatroom_screen.dart';
@@ -101,29 +99,39 @@ class _DashboardScreenState extends State<DashboardScreen> {
               leading: const Icon(Icons.logout),
               title: const Text("Logout"))
         ]))),
-        body: ListView.builder(
-            itemCount: chatroomsList.length,
-            itemBuilder: (BuildContext context, int index) {
-              String chatroomName = chatroomsList[index]["chatroom"] ?? "";
+        body: chatroomsList.isEmpty
+            ? Center(
+                child: Text(
+                  "No chatrooms yet.",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              )
+            : ListView.builder(
+                itemCount: chatroomsList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  String chatroomName = chatroomsList[index]["chatroom"] ?? "";
+                  String chatroomInitial =
+                      chatroomName.isNotEmpty ? chatroomName[0] : "?";
 
-              return ListTile(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return ChatroomScreen(
-                      chatroomName: chatroomName,
-                      chatroomId: chatroomsIds[index],
-                    );
-                  }));
-                }, 
-                leading: CircleAvatar(
-                    backgroundColor: Colors.blueGrey[900],
-                    child: Text(
-                      chatroomName[0],
-                      style: const TextStyle(color: Colors.white),
-                    )),
-                title: Text(chatroomName),
-                subtitle: Text(chatroomsList[index]["desc"] ?? ""),
-              );
-            }));
+                  return ListTile(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return ChatroomScreen(
+                          chatroomName: chatroomName,
+                          chatroomId: chatroomsIds[index],
+                        );
+                      }));
+                    },
+                    leading: CircleAvatar(
+                        backgroundColor: Colors.blueGrey[900],
+                        child: Text(
+                          chatroomInitial,
+                          style: const TextStyle(color: Colors.white),
+                        )),
+                    title: Text(chatroomName.isEmpty ? "Untitled" : chatroomName),
+                    subtitle: Text(chatroomsList[index]["desc"] ?? ""),
+                  );
+                }));
   }
 }

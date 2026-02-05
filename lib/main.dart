@@ -9,7 +9,7 @@ Future<void> main()async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(ChangeNotifierProvider(create: (context) => UserProvider(), child: MyApp(),));
+  runApp(ChangeNotifierProvider(create: (context) => UserProvider(), child: const MyApp(),));
 }
 
 class MyApp extends StatefulWidget {
